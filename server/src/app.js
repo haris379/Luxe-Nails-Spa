@@ -60,13 +60,16 @@ export function createApp() {
       },
     }),
   );
-  app.use(express.json({ limit: "20kb" }));
-  app.get("/", (req, res) => {
+
+  // API status route for the website root and Vercel rewrite
+  app.get(["/", "/api"], (req, res) => {
     res.status(200).json({
       success: true,
-      message: "Luxe Nails API is running correctly",
+      message: "Luxe Nails API is running",
     });
   });
+
+  app.use(express.json({ limit: "20kb" }));
   app.use("/api", apiLimiter, routes);
   app.use(notFound);
   app.use(errorHandler);
