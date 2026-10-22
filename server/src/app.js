@@ -64,7 +64,7 @@ export function createApp() {
   app.get("/", (req, res) => {
     res.status(200).json({
       success: true,
-      message: "Luxe Nails API is running",
+      message: "Luxe Nails API is running correctly",
     });
   });
   app.use("/api", apiLimiter, routes);
