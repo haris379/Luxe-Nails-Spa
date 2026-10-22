@@ -39,6 +39,4 @@ export default async function handler(req, res) {
       .json({ success: false, message: "Server is not configured correctly." });
   }
   return app(req, res);
-}
-
-   export { default } from "../src/app.js";
+} export { default } from "../src/app.js";
