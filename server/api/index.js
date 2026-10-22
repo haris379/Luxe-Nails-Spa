@@ -1,4 +1,3 @@
-// Vercel serverless entry point. Every request (see vercel.json) is routed here.
 import { createApp } from "../src/app.js";
 import { assertRuntimeEnv } from "../src/config/env.js";
 import { connectDB } from "../src/config/db.js";
@@ -8,13 +7,14 @@ import { EmailVerification } from "../src/models/EmailVerification.js";
 import { OtpThrottle } from "../src/models/OtpThrottle.js";
 
 const app = createApp();
-let ready; // the connection is created once per warm instance and reused
+let ready;
 
 function init() {
   if (!ready) {
     ready = (async () => {
       assertRuntimeEnv();
       await connectDB();
+
       await Promise.all([
         Appointment.init(),
         SlotLock.init(),
@@ -22,10 +22,11 @@ function init() {
         OtpThrottle.init(),
       ]);
     })().catch((err) => {
-      ready = undefined; // retry on the next request
+      ready = undefined;
       throw err;
     });
   }
+
   return ready;
 }
 
@@ -33,10 +34,13 @@ export default async function handler(req, res) {
   try {
     await init();
   } catch (err) {
-    console.error(err.message);
-    return res
-      .status(500)
-      .json({ success: false, message: "Server is not configured correctly." });
+    console.error("Backend initialization failed:", err);
+
+    return res.status(500).json({
+      success: false,
+      message: "Server initialization failed.",
+    });
   }
+
   return app(req, res);
-} export { default } from "../src/app.js";
+}

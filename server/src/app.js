@@ -7,12 +7,6 @@ import { UploadedImage } from "./models/UploadedImage.js";
 import routes from "./routes/index.js";
 import { apiLimiter } from "./middleware/rateLimit.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
-import { assertRuntimeEnv } from "./config/env.js";
-import { connectDB } from "./config/db.js";
-import { Appointment } from "./models/Appointment.js";
-import { SlotLock } from "./models/SlotLock.js";
-import { EmailVerification } from "./models/EmailVerification.js";
-import { OtpThrottle } from "./models/OtpThrottle.js";
 
 export function createApp() {
   const app = express();
@@ -73,45 +67,3 @@ export function createApp() {
   return app;
 }
 
-// ---- Vercel / serverless entry ----------------------------------------------------------------
-// Vercel auto-detects src/app.js as the Express entry and requires a DEFAULT export that is a
-// function. This handler connects to MongoDB once per warm instance, then hands the request to Express.
-let appInstance;
-let ready;
-
-function init() {
-  if (!ready) {
-    ready = (async () => {
-      assertRuntimeEnv();
-      await connectDB();
-      await Promise.all([
-        Appointment.init(),
-        SlotLock.init(),
-        EmailVerification.init(),
-        OtpThrottle.init(),
-      ]);
-      appInstance = createApp();
-    })().catch((err) => {
-      ready = undefined; // retry on the next request
-      throw err;
-    });
-  }
-  return ready;
-}
-
-export default async function handler(req, res) {
-  try {
-    await init();
-  } catch (err) {
-    console.error(err.message);
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "application/json");
-    return res.end(
-      JSON.stringify({
-        success: false,
-        message: "Server is not configured correctly.",
-      }),
-    );
-  }
-  return appInstance(req, res);
-}
