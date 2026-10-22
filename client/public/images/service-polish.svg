@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe4e6"/><stop offset="1" stop-color="#e11d48" stop-opacity=".55"/></linearGradient></defs>
+  <rect width="800" height="600" fill="url(#bg)"/><circle cx="353" cy="51" r="3.2" fill="#fb7185" opacity=".35"/><circle cx="559" cy="211" r="6.5" fill="#fb7185" opacity=".35"/><circle cx="164" cy="269" r="4.2" fill="#fb7185" opacity=".35"/><circle cx="300" cy="17" r="3.2" fill="#fb7185" opacity=".35"/><circle cx="501" cy="324" r="5.7" fill="#fb7185" opacity=".35"/><circle cx="300" cy="260" r="3.8" fill="#fb7185" opacity=".35"/><circle cx="31" cy="335" r="4.5" fill="#fb7185" opacity=".35"/><circle cx="26" cy="339" r="4.8" fill="#fb7185" opacity=".35"/><circle cx="620" cy="63" r="2.0" fill="#fb7185" opacity=".35"/><circle cx="545" cy="15" r="3.1" fill="#fb7185" opacity=".35"/><circle cx="135" cy="347" r="5.1" fill="#fb7185" opacity=".35"/><circle cx="523" cy="128" r="5.1" fill="#fb7185" opacity=".35"/><circle cx="442" cy="228" r="5.3" fill="#fb7185" opacity=".35"/><circle cx="227" cy="78" r="2.7" fill="#fb7185" opacity=".35"/>
+  <ellipse cx="400" cy="588" rx="240" ry="120" fill="#fb7185" opacity=".5"/>
+  <g transform="translate(283.2 354.0) rotate(-31.0)">
+      <rect x="-42.16" y="52.800000000000004" width="84.32" height="189" rx="40.8" fill="#000" opacity=".10"/>
+      <rect x="-34" y="-48" width="68" height="96" rx="32.64" fill="#fb7185"/>
+      <rect x="-30" y="-43" width="19.040000000000003" height="57.599999999999994" rx="6" fill="#fff" opacity=".45"/>
+    </g>
+<g transform="translate(326.9 262.6) rotate(-14.8)">
+      <rect x="-42.16" y="52.800000000000004" width="84.32" height="238.5" rx="40.8" fill="#000" opacity=".10"/>
+      <rect x="-34" y="-48" width="68" height="96" rx="32.64" fill="#e11d48"/>
+      <rect x="-30" y="-43" width="19.040000000000003" height="57.599999999999994" rx="6" fill="#fff" opacity=".45"/>
+    </g>
+<g transform="translate(389.0 210.2) rotate(-1.9)">
+      <rect x="-42.16" y="52.800000000000004" width="84.32" height="270" rx="40.8" fill="#000" opacity=".10"/>
+      <rect x="-34" y="-48" width="68" height="96" rx="32.64" fill="#fb7185"/>
+      <rect x="-30" y="-43" width="19.040000000000003" height="57.599999999999994" rx="6" fill="#fff" opacity=".45"/>
+    </g>
+<g transform="translate(469.3 261.5) rotate(14.0)">
+      <rect x="-42.16" y="52.800000000000004" width="84.32" height="238.5" rx="40.8" fill="#000" opacity=".10"/>
+      <rect x="-34" y="-48" width="68" height="96" rx="32.64" fill="#e11d48"/>
+      <rect x="-30" y="-43" width="19.040000000000003" height="57.599999999999994" rx="6" fill="#fff" opacity=".45"/>
+    </g>
+<g transform="translate(513.5 351.8) rotate(30.0)">
+      <rect x="-42.16" y="52.800000000000004" width="84.32" height="189" rx="40.8" fill="#000" opacity=".10"/>
+      <rect x="-34" y="-48" width="68" height="96" rx="32.64" fill="#fb7185"/>
+      <rect x="-30" y="-43" width="19.040000000000003" height="57.599999999999994" rx="6" fill="#fff" opacity=".45"/>
+    </g>
+</svg>
