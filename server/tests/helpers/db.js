@@ -11,7 +11,7 @@ import request from 'supertest';
 export const uri = process.env.MONGODB_TEST_URI;
 export const skip = !uri && 'MONGODB_TEST_URI not set';
 
-const { createApp } = await import('../../src/app.js');
+const { createApp } = await import('../../src/createApp.js');
 const { mailTransport } = await import('../../src/utils/mailer.js');
 const models = {
   Appointment: (await import('../../src/models/Appointment.js')).Appointment,

@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 process.env.JWT_SECRET = 'x'.repeat(40);
 process.env.UPLOAD_DIR = path.join(os.tmpdir(), `luxe-upload-unit-${process.pid}`);
-const { createApp } = await import('../src/app.js');
+const { createApp } = await import('../src/createApp.js');
 const { adminStore } = await import('../src/middleware/auth.js');
 const up = await import('../src/utils/uploads.js');
 const app = createApp();

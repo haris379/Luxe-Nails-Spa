@@ -9,7 +9,7 @@ import jwt from 'jsonwebtoken';
 
 process.env.JWT_SECRET = 'x'.repeat(40);
 process.env.UPLOAD_DIR = path.join(os.tmpdir(), `luxe-roles-unit-${process.pid}`);
-const { createApp } = await import('../src/app.js');
+const { createApp } = await import('../src/createApp.js');
 const { adminStore } = await import('../src/middleware/auth.js');
 const { default: routes } = await import('../src/routes/index.js');
 const { PERMISSIONS, can, permissionsFor, isRole } = await import('../src/config/permissions.js');

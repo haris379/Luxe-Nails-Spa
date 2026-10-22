@@ -1,4 +1,4 @@
-import { createApp } from "../src/app.js";
+import { createApp } from "../src/createApp.js";
 import { assertRuntimeEnv } from "../src/config/env.js";
 import { connectDB } from "../src/config/db.js";
 import { Appointment } from "../src/models/Appointment.js";

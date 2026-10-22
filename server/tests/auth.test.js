@@ -5,7 +5,7 @@ import request from 'supertest';
 import jwt from 'jsonwebtoken';
 
 process.env.JWT_SECRET = 'x'.repeat(40);
-const { createApp } = await import('../src/app.js');
+const { createApp } = await import('../src/createApp.js');
 const { adminStore } = await import('../src/middleware/auth.js');
 const { default: routes } = await import('../src/routes/index.js');
 const app = createApp();
