@@ -15,27 +15,6 @@ A complete website for a nail and spa salon: customer pages, online booking with
 - MongoDB (local, or a MongoDB Atlas connection string)
 - An SMTP account for sending email (customers must verify their email to book; see below)
 
-## Quick start
-
-```bash
-# 1. Backend
-cd server
-cp .env.example .env        # edit it: MONGODB_URI, JWT_SECRET (32+ random chars), ADMIN_EMAIL, ADMIN_PASSWORD, SMTP_*
-npm install
-npm run seed                # sample services (38) and the business owner's admin account
-npm run create-developer    # your developer account (prompts for email + hidden password)
-npm run dev                 # http://localhost:5000
-
-# 2. Frontend (second terminal)
-cd client
-cp .env.example .env        # optional in development
-npm install
-npm run dev                 # http://localhost:5173  (proxies /api and /uploads to the backend)
-```
-
-Admin login: <http://localhost:5173/admin/login>.
-
-**Email is required for booking.** Customers prove they own their email address with a one-time code before a booking can be saved. Until `SMTP_HOST` and `MAIL_FROM` are set, the booking page reports that verification is unavailable. For local testing use [Mailpit](https://github.com/axllent/mailpit) (`SMTP_HOST=localhost`, `SMTP_PORT=1025`) or an Ethereal account.
 
 ## Accounts and roles
 
