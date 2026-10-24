@@ -1,9 +1,9 @@
-import nodemailer from 'nodemailer';
-import { env } from '../config/env.js';
-import { business } from '../config/business.js';
-import { verification } from '../config/verification.js';
-import { formatTime } from './schedule.js';
-import { categoryLabel, categoryGroup } from './categories.js';
+import nodemailer from "nodemailer";
+import { env } from "../config/env.js";
+import { business } from "../config/business.js";
+import { verification } from "../config/verification.js";
+import { formatTime } from "./schedule.js";
+import { categoryLabel, categoryGroup } from "./categories.js";
 
 let transporter = null;
 
@@ -17,7 +17,9 @@ function getTransporter() {
       host: env.smtp.host,
       port: env.smtp.port,
       secure: env.smtp.secure,
-      auth: env.smtp.user ? { user: env.smtp.user, pass: env.smtp.pass } : undefined,
+      auth: env.smtp.user
+        ? { user: env.smtp.user, pass: env.smtp.pass }
+        : undefined,
     });
   }
   return transporter;
@@ -25,11 +27,18 @@ function getTransporter() {
 
 // Single place where mail leaves the app. Tests replace `send`.
 export const mailTransport = {
-  send: (message) => getTransporter().sendMail({ from: env.smtp.from, ...message }),
+  send: (message) =>
+    getTransporter().sendMail({ from: env.smtp.from, ...message }),
 };
 
 const esc = (s) =>
-  String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  String(s).replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ],
+  );
 
 /**
  * Never throws. Returns { status: 'sent' | 'not_configured' | 'failed', error? }.
@@ -37,14 +46,14 @@ const esc = (s) =>
  * so one-time codes cannot leak into logs.
  */
 export async function deliver(message) {
-  if (!emailConfigured()) return { status: 'not_configured' };
+  if (!emailConfigured()) return { status: "not_configured" };
   try {
     await mailTransport.send(message);
-    return { status: 'sent' };
+    return { status: "sent" };
   } catch (err) {
-    const code = String(err?.code || err?.name || 'SEND_ERROR').slice(0, 40);
+    const code = String(err?.code || err?.name || "SEND_ERROR").slice(0, 40);
     console.error(`Email delivery failed (${code})`);
-    return { status: 'failed', error: code };
+    return { status: "failed", error: code };
   }
 }
 
@@ -62,50 +71,63 @@ function layout({ preheader, heading, bodyHtml }) {
 </table></td></tr></table></body></html>`;
 }
 
-const money = (n, starting) => `${starting ? 'From ' : ''}\u20B1${Number(n).toLocaleString('en-PH')}`;
-const duration = (m) => (m >= 60 ? `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ''}` : `${m} min`);
+const money = (n, starting) =>
+  `${starting ? "From " : ""}\u20B1${Number(n).toLocaleString("en-PH")}`;
+const duration = (m) =>
+  m >= 60
+    ? `${Math.floor(m / 60)} h${m % 60 ? ` ${m % 60} min` : ""}`
+    : `${m} min`;
 
 /** Pure function: builds the booking email (request received, or confirmed by the salon). */
 export function buildBookingEmail(appt) {
   const when = `${appt.date} at ${formatTime(appt.startMinutes)} (${business.timezone})`;
   const category = categoryLabel(appt.serviceCategory);
-  const type = categoryGroup(appt.serviceCategory) === 'spa' ? 'spa treatment' : 'nail appointment';
-  const confirmed = appt.status === 'confirmed';
-  const pending = appt.status === 'pending';
+  const type =
+    categoryGroup(appt.serviceCategory) === "spa"
+      ? "spa treatment"
+      : "nail appointment";
+  const confirmed = appt.status === "confirmed";
+  const pending = appt.status === "pending";
   const statusLine = pending
-    ? 'Pending. This is a request, not a confirmed appointment. The salon will confirm it shortly.'
+    ? "Pending. This is a request, not a confirmed appointment. The salon will confirm it shortly."
     : appt.status.charAt(0).toUpperCase() + appt.status.slice(1);
   const c = business.contact;
   const rows = [
-    ['Reference', appt.reference],
-    ['Status', statusLine],
-    ['Category', category],
-    ['Service', appt.serviceName],
-    ['Date and time', when],
-    ['Duration', duration(appt.durationMinutes)],
-    ['Price', money(appt.servicePrice, appt.isStartingPrice)],
-    ['Technician', appt.technicianName],
+    ["Reference", appt.reference],
+    ["Status", statusLine],
+    ["Category", category],
+    ["Service", appt.serviceName],
+    ["Date and time", when],
+    ["Duration", duration(appt.durationMinutes)],
+    ["Price", money(appt.servicePrice, appt.isStartingPrice)],
+    ["Technician", appt.technicianName],
   ];
   const intro = confirmed
     ? `Good news! Your ${type} at ${business.name} is confirmed.`
     : `We received your ${type} request at ${business.name}. Your email address has been verified.`;
-  const policy = 'To cancel or reschedule, please contact us at least 24 hours ahead.';
+  const policy =
+    "To cancel or reschedule, please contact us at least 24 hours ahead.";
   const text = [
     `Hi ${appt.customerName},`,
-    '',
+    "",
     intro,
-    '',
+    "",
     ...rows.map(([k, v]) => `${k}: ${v}`),
-    '',
+    "",
     policy,
     `${business.name} | ${c.phone} | ${c.email} | ${c.address}`,
-  ].join('\n');
+  ].join("\n");
   const table = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;">${rows
-    .map(([k, v]) => `<tr><td style="padding:8px 0;border-bottom:1px solid #ffe9ef;color:#475569;width:38%;vertical-align:top;">${esc(k)}</td><td style="padding:8px 0;border-bottom:1px solid #ffe9ef;font-weight:600;">${esc(v)}</td></tr>`)
-    .join('')}</table>`;
+    .map(
+      ([k, v]) =>
+        `<tr><td style="padding:8px 0;border-bottom:1px solid #ffe9ef;color:#475569;width:38%;vertical-align:top;">${esc(k)}</td><td style="padding:8px 0;border-bottom:1px solid #ffe9ef;font-weight:600;">${esc(v)}</td></tr>`,
+    )
+    .join("")}</table>`;
   const html = layout({
     preheader: intro,
-    heading: confirmed ? 'Your appointment is confirmed' : 'Appointment request received',
+    heading: confirmed
+      ? "Your appointment is confirmed"
+      : "Appointment request received",
     bodyHtml: `<p style="margin:0 0 16px;font-size:15px;line-height:1.5;">Hi ${esc(appt.customerName)},<br>${esc(intro)}</p>${table}<p style="margin:16px 0 0;font-size:13px;color:#475569;">${esc(policy)}</p>`,
   });
   const subject = confirmed
@@ -122,15 +144,15 @@ export function buildOtpEmail(code) {
   const subject = `${code} is your ${business.name} verification code`;
   const text = [
     `Your ${business.name} verification code is: ${code}`,
-    '',
+    "",
     `It expires in ${minutes} minutes and can be used once.`,
     `If you did not request this, you can safely ignore this email. Nobody can book with your address without this code.`,
-    '',
+    "",
     business.name,
-  ].join('\n');
+  ].join("\n");
   const html = layout({
     preheader: `Your verification code is ${code}`,
-    heading: 'Verify your email address',
+    heading: "Verify your email address",
     bodyHtml: `<p style="margin:0 0 16px;font-size:15px;line-height:1.5;">Enter this code on the booking page to confirm this email address belongs to you:</p>
 <p style="margin:0 0 16px;text-align:center;"><span style="display:inline-block;padding:14px 22px;background:#fff5f7;border-radius:12px;font-size:32px;letter-spacing:8px;font-weight:700;color:#ec4899;">${esc(code)}</span></p>
 <p style="margin:0;font-size:13px;color:#475569;">The code expires in ${minutes} minutes and can be used once. If you did not request it, ignore this email.</p>`,
@@ -138,37 +160,78 @@ export function buildOtpEmail(code) {
   return { subject, text, html };
 }
 
-export const sendOtpEmail = (to, code) => deliver({ to, ...buildOtpEmail(code) });
-export const sendBookingEmail = (appt) => deliver({ to: appt.email, ...buildBookingEmail(appt) });
+export const sendOtpEmail = (to, code) =>
+  deliver({ to, ...buildOtpEmail(code) });
+export const sendBookingEmail = (appt) =>
+  deliver({ to: appt.email, ...buildBookingEmail(appt) });
 
+// ---- Contact-form notification (website visitor -> salon owner) ----
+
+/** Splits MAIL_FROM ("Name <addr>" or "addr") into { name, address }. Returns null if no address is found. */
+export function parseMailFrom(value) {
+  const raw = String(value || "").trim();
+  const m =
+    raw.match(/^(.*?)<\s*([^<>\s]+@[^<>\s]+)\s*>$/) ||
+    raw.match(/^()([^<>\s]+@[^<>\s]+)$/);
+  if (!m) return null;
+  return {
+    name: m[1]
+      .trim()
+      .replace(/^"(.*)"$/, "$1")
+      .trim(),
+    address: m[2],
+  };
+}
+
+/** Makes visitor-supplied text safe to use as a display name: no control chars, quotes, brackets or "@". */
+function safeDisplayName(value, max = 60) {
+  return String(value || "")
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .replace(/[<>"@]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, max);
+}
+
+/**
+ * Pure function: builds the owner notification for a contact-form message.
+ * - The From ADDRESS is always our own authenticated sender (never the visitor's address).
+ * - The From DISPLAY NAME is "<Visitor> via <Brand>", so Gmail can show the visitor's name
+ *   when the sending and receiving accounts are different.
+ * - Reply-To is the visitor's (already validated) email, so Reply goes straight to them.
+ */
+export function buildContactEmail(msg) {
+  const sender = parseMailFrom(env.smtp.from);
+  const brand = (sender && sender.name) || `${business.name} Website`;
+  const visitor = safeDisplayName(msg.name);
+  const from = sender
+    ? {
+        name: visitor ? `${visitor} via ${brand}` : brand,
+        address: sender.address,
+      }
+    : env.smtp.from;
+  const text = `From: ${msg.name} <${msg.email}>\n\n${msg.message}`;
+  const html = layout({
+    preheader: `New website message from ${msg.name}`,
+    heading: "New website message",
+    bodyHtml: `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;border-collapse:collapse;margin-bottom:16px;">
+<tr><td style="padding:6px 0;color:#475569;width:30%;">Name</td><td style="padding:6px 0;font-weight:600;">${esc(msg.name)}</td></tr>
+<tr><td style="padding:6px 0;color:#475569;">Email</td><td style="padding:6px 0;font-weight:600;">${esc(msg.email)}</td></tr>
+<tr><td style="padding:6px 0;color:#475569;">Subject</td><td style="padding:6px 0;font-weight:600;">${esc(msg.subject)}</td></tr></table>
+<p style="margin:0;font-size:15px;line-height:1.5;white-space:pre-wrap;">${esc(msg.message)}</p>
+<p style="margin:16px 0 0;font-size:12px;color:#475569;">Press Reply to answer ${esc(msg.name)} directly.</p>`,
+  });
+  return {
+    from,
+    to: env.smtp.owner,
+    replyTo: { name: visitor, address: msg.email },
+    subject: `[Website] ${msg.subject}`,
+    text,
+    html,
+  };
+}
 
 export function sendContactEmail(msg) {
-  if (!env.smtp.owner) {
-    return Promise.resolve({ status: 'not_configured' });
-  }
-
-  // Keep the verified sender email, but display the visitor's name.
-  const senderAddress =
-    env.smtp.from.match(/<([^>]+)>/)?.[1]?.trim() ||
-    env.smtp.from.trim();
-
-  return deliver({
-    from: {
-      name: String(msg.name).trim(),
-      address: senderAddress,
-    },
-    to: env.smtp.owner,
-    replyTo: {
-      name: String(msg.name).trim(),
-      address: msg.email,
-    },
-    subject: `[Website] ${msg.subject}`,
-    text: [
-      `Name: ${msg.name}`,
-      `Email: ${msg.email}`,
-      '',
-      'Message:',
-      msg.message,
-    ].join('\n'),
-  });
+  if (!env.smtp.owner) return Promise.resolve({ status: "not_configured" });
+  return deliver(buildContactEmail(msg));
 }
