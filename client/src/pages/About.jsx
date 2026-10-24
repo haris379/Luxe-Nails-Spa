@@ -1,8 +1,15 @@
 import { Link } from "react-router-dom";
-import { Heart, ShieldCheck, Sparkles, Users } from "lucide-react";
+import {
+  Heart,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  Award,
+  Clock,
+} from "lucide-react";
 import Seo from "../components/Seo";
-import { CtaBanner, PageHero } from "../components/ui";
-import { site } from "../config/site";
+import { CtaBanner, PageHero, Accordion } from "../components/ui";
+import { site, faqs } from "../config/site";
 
 const values = [
   {
@@ -31,6 +38,29 @@ const team = [
   { name: "Ana", role: "Nail technician" },
   { name: "Bea", role: "Nail technician" },
   { name: "Carla", role: "Nail technician" },
+];
+
+const highlights = [
+  {
+    icon: Sparkles,
+    title: "Premium Products",
+    text: "We use only the finest, professional-grade products for lasting results.",
+  },
+  {
+    icon: Award,
+    title: "Expert Artists",
+    text: "Our technicians focus on precision, nail health and creative design.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Hygienic Care",
+    text: "Tools are cleaned and sanitised between every guest.",
+  },
+  {
+    icon: Clock,
+    title: "Convenient Hours",
+    text: "Open 7 days a week with flexible scheduling to fit your busy lifestyle.",
+  },
 ];
 
 export default function About() {
@@ -69,35 +99,18 @@ export default function About() {
         </div>
       </section>
 
-      <section className="bg-brand-50 py-14">
-        <div className="container-page grid gap-8 md:grid-cols-2">
-          <div>
-            <h2 className="text-2xl font-bold">Our mission</h2>
-            <p className="mt-3 text-sm leading-relaxed text-ink-soft">
-              To deliver beautiful, long-lasting nail services in a clean,
-              comfortable setting, with clear prices and honest advice.
-            </p>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold">Hygiene and safety</h2>
-            <ul className="mt-3 list-disc space-y-1.5 pl-5 text-sm text-ink-soft">
-              <li>Tools are cleaned and sanitised between guests</li>
-              <li>
-                Single-use files and buffers are discarded after each service
-              </li>
-              <li>Work surfaces are wiped down before every appointment</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-14" aria-labelledby="why-about">
+      {/* Wjy choose Section  */}
+      <section className="py-14" aria-labelledby="why-title">
         <div className="container-page">
-          <h2 id="why-about" className="section-title">
-            Why choose us
+          <h2 id="why-title" className="section-title">
+            Why Choose Luxe Nails?
           </h2>
+          <p className="section-sub">
+            We combine luxury, expertise, and creativity to deliver exceptional
+            nail care services.
+          </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map(({ icon: Icon, title, text }) => (
+            {highlights.map(({ icon: Icon, title, text }) => (
               <div
                 key={title}
                 className="rounded-2xl bg-brand-50 p-5 text-center"
@@ -116,9 +129,6 @@ export default function About() {
       <section className="bg-brand-50 py-14">
         <div className="container-page">
           <h2 className="section-title">Meet the team</h2>
-          <p className="section-sub">
-            Sample team members — replace with the salon's real technicians.
-          </p>
           <ul className="mt-8 grid gap-4 sm:grid-cols-3">
             {team.map((t) => (
               <li key={t.name} className="card p-5 text-center">
@@ -143,6 +153,17 @@ export default function About() {
             </Link>
             .
           </p>
+        </div>
+      </section>
+
+      <section className="py-14" aria-labelledby="faq-title">
+        <div className="container-page max-w-3xl">
+          <h2 id="faq-title" className="section-title">
+            Frequently Asked Questions
+          </h2>
+          <div className="mt-8">
+            <Accordion items={faqs} />
+          </div>
         </div>
       </section>
 

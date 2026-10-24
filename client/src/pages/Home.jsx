@@ -10,8 +10,8 @@ import {
   Award,
 } from "lucide-react";
 import Seo from "../components/Seo";
-import { Accordion, CtaBanner } from "../components/ui";
-import { faqs, site, whatsappLink } from "../config/site";
+import { CtaBanner } from "../components/ui";
+import { site, whatsappLink } from "../config/site";
 import { galleryItems } from "../config/gallery";
 import { categories } from "../config/categories";
 
@@ -90,7 +90,7 @@ export default function Home() {
         title="Premium Nail Care & Artistry"
         description="Luxe Nails offers nail care and spa treatments (massage, facials, body treatments, waxing, hand and foot spa) in Rosario, Cavite. Book online."
       />
-
+      {/* Hero Section  */}
       <section className="relative isolate overflow-hidden bg-[#3b1030] text-white">
         <img
           src="/images/HeroImage.jpg"
@@ -124,33 +124,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <section className="py-14" aria-labelledby="why-title">
-        <div className="container-page">
-          <h2 id="why-title" className="section-title">
-            Why Choose Luxe Nails?
-          </h2>
-          <p className="section-sub">
-            We combine luxury, expertise, and creativity to deliver exceptional
-            nail care services.
-          </p>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {highlights.map(({ icon: Icon, title, text }) => (
-              <div
-                key={title}
-                className="rounded-2xl bg-brand-50 p-5 text-center"
-              >
-                <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-brand-gradient text-white">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <h3 className="mt-3 text-sm font-semibold">{title}</h3>
-                <p className="mt-1 text-xs text-ink-soft">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      {/* Nail & Spa Section  */}
       <section className="bg-brand-50 py-14" aria-labelledby="featured-title">
         <div className="container-page">
           <h2 id="featured-title" className="section-title">
@@ -160,110 +134,110 @@ export default function Home() {
             One salon for polished nails and full relaxation. Choose a treatment
             and book online.
           </p>
-         
-<div className="mt-8 grid gap-6 lg:grid-cols-2">
-  {/* Nail Care */}
-  <article
-    className="card flex h-full flex-col overflow-hidden"
-    aria-labelledby="nail-care-title"
-  >
-    <img
-      src="/images/nailCare.jpg"
-      alt="Illustration of manicured nails"
-      loading="lazy"
-      className="aspect-[16/7] w-full object-cover"
-    />
 
-    <div className="flex flex-1 flex-col p-5">
-      <h3 id="nail-care-title" className="text-xl font-bold">
-        Nail Care
-      </h3>
-
-      <p className="mt-1 text-sm text-ink-soft">
-        Manicures, pedicures, gel and acrylic extensions, nail art and
-        repairs.
-      </p>
-
-      <ul className="mt-4 grid grid-cols-2 gap-3">
-        {nailGroup.map((n) => (
-          <li key={n.label}>
-            <Link
-              to="/services?category=nail-services"
-              className="block rounded-xl border border-brand-100 bg-brand-50 p-3 text-sm font-medium transition hover:bg-brand-100"
+          <div className="mt-8 grid gap-6 lg:grid-cols-2">
+            {/* Nail Care */}
+            <article
+              className="card flex h-full flex-col overflow-hidden"
+              aria-labelledby="nail-care-title"
             >
-              {n.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+              <img
+                src="/images/nailCare.jpg"
+                alt="Illustration of manicured nails"
+                loading="lazy"
+                className="aspect-[16/7] w-full object-cover"
+              />
 
-      <div className="mt-auto flex flex-wrap gap-3 pt-5">
-        <Link
-          to="/services?category=nail-services"
-          className="btn btn-primary"
-        >
-          Explore Nail Services
-        </Link>
+              <div className="flex flex-1 flex-col p-5">
+                <h3 id="nail-care-title" className="text-xl font-bold">
+                  Nail Care
+                </h3>
 
-        <Link to="/booking" className="btn btn-outline">
-          Book an Appointment
-        </Link>
-      </div>
-    </div>
-  </article>
+                <p className="mt-1 text-sm text-ink-soft">
+                  Manicures, pedicures, gel and acrylic extensions, nail art and
+                  repairs.
+                </p>
 
-  {/* Spa and Wellness */}
-  <article
-    className="card flex h-full flex-col overflow-hidden"
-    aria-labelledby="spa-title"
-  >
-    <img
-      src="/images/SpaAndWellness.jpg"
-      alt="Illustration of a relaxing spa treatment"
-      loading="lazy"
-      className="aspect-[16/7] w-full object-cover"
-    />
+                <ul className="mt-4 grid grid-cols-2 gap-3">
+                  {nailGroup.map((n) => (
+                    <li key={n.label}>
+                      <Link
+                        to="/services?category=nail-services"
+                        className="block rounded-xl border border-brand-100 bg-brand-50 p-3 text-sm font-medium transition hover:bg-brand-100"
+                      >
+                        {n.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
 
-    <div className="flex flex-1 flex-col p-5">
-      <h3 id="spa-title" className="text-xl font-bold">
-        Spa and Wellness
-      </h3>
+                <div className="mt-auto flex flex-wrap gap-3 pt-5">
+                  <Link
+                    to="/services?category=nail-services"
+                    className="btn btn-primary"
+                  >
+                    Explore Nail Services
+                  </Link>
 
-      <p className="mt-1 text-sm text-ink-soft">
-        Massage therapy, facials, body treatments, waxing and hand and
-        foot spa.
-      </p>
+                  <Link to="/booking" className="btn btn-outline">
+                    Book an Appointment
+                  </Link>
+                </div>
+              </div>
+            </article>
 
-      <ul className="mt-4 grid grid-cols-2 gap-3">
-        {categories
-          .filter((c) => c.group === "spa")
-          .map((c) => (
-            <li key={c.id}>
-              <Link
-                to={`/services?category=${c.id}`}
-                className="block rounded-xl border border-brand-100 bg-brand-50 p-3 text-sm font-medium transition hover:bg-brand-100"
-              >
-                {c.label}
-              </Link>
-            </li>
-          ))}
-      </ul>
+            {/* Spa and Wellness */}
+            <article
+              className="card flex h-full flex-col overflow-hidden"
+              aria-labelledby="spa-title"
+            >
+              <img
+                src="/images/SpaAndWellness.jpg"
+                alt="Illustration of a relaxing spa treatment"
+                loading="lazy"
+                className="aspect-[16/7] w-full object-cover"
+              />
 
-      <div className="mt-auto flex flex-wrap gap-3 pt-5">
-        <Link
-          to="/services?category=massage"
-          className="btn btn-primary"
-        >
-          Explore Spa Services
-        </Link>
+              <div className="flex flex-1 flex-col p-5">
+                <h3 id="spa-title" className="text-xl font-bold">
+                  Spa and Wellness
+                </h3>
 
-        <Link to="/booking" className="btn btn-outline">
-          Book an Appointment
-        </Link>
-      </div>
-    </div>
-  </article>
-</div>
+                <p className="mt-1 text-sm text-ink-soft">
+                  Massage therapy, facials, body treatments, waxing and hand and
+                  foot spa.
+                </p>
+
+                <ul className="mt-4 grid grid-cols-2 gap-3">
+                  {categories
+                    .filter((c) => c.group === "spa")
+                    .map((c) => (
+                      <li key={c.id}>
+                        <Link
+                          to={`/services?category=${c.id}`}
+                          className="block rounded-xl border border-brand-100 bg-brand-50 p-3 text-sm font-medium transition hover:bg-brand-100"
+                        >
+                          {c.label}
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+
+                <div className="mt-auto flex flex-wrap gap-3 pt-5">
+                  <Link
+                    to="/services?category=massage"
+                    className="btn btn-primary"
+                  >
+                    Explore Spa Services
+                  </Link>
+
+                  <Link to="/booking" className="btn btn-outline">
+                    Book an Appointment
+                  </Link>
+                </div>
+              </div>
+            </article>
+          </div>
 
           <div className="mt-8 text-center">
             <Link to="/services" className="btn btn-outline">
@@ -272,7 +246,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      {/* Latest work Section  */}
       <section className="py-14" aria-labelledby="latest-title">
         <div className="container-page">
           <h2 id="latest-title" className="section-title">
@@ -309,7 +283,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+     
+      {/* Saloon Section  */}
       <section className="bg-brand-50 py-14" aria-labelledby="about-title">
         <div className="container-page grid items-center gap-8 md:grid-cols-2">
           <img
@@ -333,7 +308,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      {/* Special Offers Section  */}
       <section className="py-14" aria-labelledby="offers-title">
         <div className="container-page">
           <h2 id="offers-title" className="section-title">
@@ -359,7 +334,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      {/* What guest says Section  */}
       <section className="bg-brand-50 py-14" aria-labelledby="reviews-title">
         <div className="container-page">
           <h2 id="reviews-title" className="section-title">
@@ -382,18 +357,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <section className="py-14" aria-labelledby="faq-title">
-        <div className="container-page max-w-3xl">
-          <h2 id="faq-title" className="section-title">
-            Frequently Asked Questions
-          </h2>
-          <div className="mt-8">
-            <Accordion items={faqs} />
-          </div>
-        </div>
-      </section>
-
+      {/* Location Section  */}
       <section className="bg-brand-50 py-14" aria-labelledby="visit-title">
         <div className="container-page grid gap-6 md:grid-cols-2">
           <div>
@@ -446,7 +410,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
       <CtaBanner
         title="Ready to Pamper Yourself?"
         text="Book your appointment today and experience the luxury you deserve."
