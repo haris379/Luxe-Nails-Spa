@@ -340,9 +340,6 @@ export default function Home() {
           <h2 id="reviews-title" className="section-title">
             What Guests Say
           </h2>
-          <p className="section-sub">
-            Placeholder testimonials — replace with real customer reviews.
-          </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {testimonials.map((t, i) => (
               <figure key={i} className="card p-5">
