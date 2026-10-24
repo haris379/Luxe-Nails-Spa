@@ -57,13 +57,24 @@ function Appointments() {
   );
   const [msg, setMsg] = useState("");
 
+  const statusLocks = useRef(new Set());
+
   async function setStatus(id, status) {
+    if (statusLocks.current.has(id)) return;
+
+    statusLocks.current.add(id);
     setMsg("");
+
     try {
-      await api.patch(`/admin/appointments/${id}/status`, { status });
-      reload();
+      await api.patch(`/admin/appointments/${id}/status`, {
+        status,
+      });
+
+      await reload();
     } catch (err) {
       setMsg(parseError(err).message);
+    } finally {
+      statusLocks.current.delete(id);
     }
   }
 
