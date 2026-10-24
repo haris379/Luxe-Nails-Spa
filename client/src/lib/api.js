@@ -30,6 +30,48 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+let activeRequests = 0;
+
+function updateRequestLoading(change) {
+  activeRequests = Math.max(0, activeRequests + change);
+
+  window.dispatchEvent(
+    new CustomEvent("api-loading", {
+      detail: { loading: activeRequests > 0 },
+    }),
+  );
+}
+
+api.interceptors.request.use(
+  (config) => {
+    // Skip requests explicitly marked as background requests.
+    if (!config.skipGlobalLoading) {
+      config._tracksGlobalLoading = true;
+      updateRequestLoading(1);
+    }
+
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
+api.interceptors.response.use(
+  (response) => {
+    if (response.config._tracksGlobalLoading) {
+      updateRequestLoading(-1);
+    }
+
+    return response;
+  },
+  (error) => {
+    if (error.config?._tracksGlobalLoading) {
+      updateRequestLoading(-1);
+    }
+
+    return Promise.reject(error);
+  },
+);
+
 // A 401 from an admin call (or a 403 that says the account is not an admin at all) means the session is no
 // longer valid: drop the token and go to the login page. A plain 403 "FORBIDDEN" is different: the person is
 // signed in but this role may not do that, so they stay signed in and see the message.

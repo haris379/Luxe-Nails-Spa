@@ -12,6 +12,7 @@ import {
   parseError,
   resolveImageUrl,
 } from "../../lib/api";
+import ApiLoadingBar from "../../components/ApiLoadingBar";
 
 const STATUSES = ["pending", "confirmed", "completed", "cancelled"];
 const badge = {
@@ -79,6 +80,7 @@ function Appointments() {
 
   return (
     <div>
+      <ApiLoadingBar />
       <div className="mb-4 flex flex-wrap items-end gap-3">
         <div>
           <label className="label" htmlFor="f-date">
