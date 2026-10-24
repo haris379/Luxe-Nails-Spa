@@ -141,12 +141,35 @@ export function buildOtpEmail(code) {
 export const sendOtpEmail = (to, code) => deliver({ to, ...buildOtpEmail(code) });
 export const sendBookingEmail = (appt) => deliver({ to: appt.email, ...buildBookingEmail(appt) });
 
+
 export function sendContactEmail(msg) {
-  if (!env.smtp.owner) return Promise.resolve({ status: 'not_configured' });
+  if (!env.smtp.owner) {
+    return Promise.resolve({ status: 'not_configured' });
+  }
+
+  // Keep the verified sender email, but display the visitor's name.
+  const senderAddress =
+    env.smtp.from.match(/<([^>]+)>/)?.[1]?.trim() ||
+    env.smtp.from.trim();
+
   return deliver({
+    from: {
+      name: String(msg.name).trim(),
+      address: senderAddress,
+    },
     to: env.smtp.owner,
-    replyTo: msg.email,
+    replyTo: {
+      name: String(msg.name).trim(),
+      address: msg.email,
+    },
     subject: `[Website] ${msg.subject}`,
-    text: `From: ${msg.name} <${msg.email}>\n\n${msg.message}`,
+    text: [
+      `Name: ${msg.name}`,
+      `Email: ${msg.email}`,
+      '',
+      'Message:',
+      msg.message,
+    ].join('\n'),
   });
 }
+F
