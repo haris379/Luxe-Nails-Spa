@@ -225,7 +225,7 @@ export function buildContactEmail(msg) {
     from,
     to: env.smtp.owner,
     replyTo: { name: visitor, address: msg.email },
-    subject: `[Website] ${msg.subject}`,
+    subject: msg.subject,
     text,
     html,
   };
