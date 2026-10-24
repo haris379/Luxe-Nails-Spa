@@ -355,58 +355,7 @@ export default function Home() {
         </div>
       </section>
       {/* Location Section  */}
-      <section className="bg-brand-50 py-14" aria-labelledby="visit-title">
-        <div className="container-page grid gap-6 md:grid-cols-2">
-          <div>
-            <h2 id="visit-title" className="text-2xl font-bold">
-              Visit Us
-            </h2>
-            <ul className="mt-4 space-y-3 text-sm text-ink-soft">
-              <li className="flex gap-3">
-                <MapPin className="h-5 w-5 text-brand-500" aria-hidden="true" />{" "}
-                {site.addressLines.join(", ")}
-              </li>
-              <li className="flex gap-3">
-                <Phone className="h-5 w-5 text-brand-500" aria-hidden="true" />{" "}
-                <a href={site.phoneHref}>{site.phone}</a>
-              </li>
-              <li className="flex gap-3">
-                <Mail className="h-5 w-5 text-brand-500" aria-hidden="true" />{" "}
-                <a href={`mailto:${site.email}`}>{site.email}</a>
-              </li>
-            </ul>
-            <div className="mt-5 flex flex-wrap gap-3">
-              <a
-                href={site.mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-outline"
-              >
-                Get Directions
-              </a>
-              <a
-                href={whatsappLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary"
-              >
-                WhatsApp Us
-              </a>
-            </div>
-          </div>
-          <div className="card p-5 text-sm">
-            <h3 className="font-semibold">Opening hours</h3>
-            <dl className="mt-3 space-y-2">
-              {site.hours.map(([d, h]) => (
-                <div key={d} className="flex justify-between gap-4">
-                  <dt className="text-ink-soft">{d}</dt>
-                  <dd>{h}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </div>
-      </section>
+     
       <CtaBanner
         title="Ready to Pamper Yourself?"
         text="Book your appointment today and experience the luxury you deserve."
