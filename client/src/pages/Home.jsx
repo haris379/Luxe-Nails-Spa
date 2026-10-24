@@ -160,103 +160,111 @@ export default function Home() {
             One salon for polished nails and full relaxation. Choose a treatment
             and book online.
           </p>
-          <div className="mt-8 grid gap-6 lg:grid-cols-2">
-            <article
-              className="card overflow-hidden"
-              aria-labelledby="nail-care-title"
+         
+<div className="mt-8 grid gap-6 lg:grid-cols-2">
+  {/* Nail Care */}
+  <article
+    className="card flex h-full flex-col overflow-hidden"
+    aria-labelledby="nail-care-title"
+  >
+    <img
+      src="/images/nailCare.jpg"
+      alt="Illustration of manicured nails"
+      loading="lazy"
+      className="aspect-[16/7] w-full object-cover"
+    />
+
+    <div className="flex flex-1 flex-col p-5">
+      <h3 id="nail-care-title" className="text-xl font-bold">
+        Nail Care
+      </h3>
+
+      <p className="mt-1 text-sm text-ink-soft">
+        Manicures, pedicures, gel and acrylic extensions, nail art and
+        repairs.
+      </p>
+
+      <ul className="mt-4 grid grid-cols-2 gap-3">
+        {nailGroup.map((n) => (
+          <li key={n.label}>
+            <Link
+              to="/services?category=nail-services"
+              className="block rounded-xl border border-brand-100 bg-brand-50 p-3 text-sm font-medium transition hover:bg-brand-100"
             >
-              <img
-                src="/images/nailCare.jpg"
-                alt="Illustration of manicured nails"
-                loading="lazy"
-                className="aspect-[16/7] w-full object-cover"
-              />
-              <div className="p-5">
-                <h3 id="nail-care-title" className="text-xl font-bold">
-                  Nail Care
-                </h3>
-                <p className="mt-1 text-sm text-ink-soft">
-                  Manicures, pedicures, gel and acrylic extensions, nail art and
-                  repairs.
-                </p>
-                <ul className="mt-4 grid grid-cols-2 gap-3">
-                  {nailGroup.map((n) => (
-                    <li key={n.label}>
-                      <Link
-                        to="/services?category=nail-services"
-                        className="flex items-center gap-3 rounded-xl bg-brand-50 p-2 text-sm font-medium hover:bg-brand-100"
-                      >
-                        <img
-                          src={n.image}
-                          alt=""
-                          loading="lazy"
-                          className="h-10 w-10 rounded-lg object-cover"
-                        />
-                        {n.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  to="/services?category=nail-services"
-                  className="btn btn-primary mt-5"
-                >
-                  Explore Nail Services
-                </Link>
-              </div>
-            </article>
-            <article
-              className="card overflow-hidden"
-              aria-labelledby="spa-title"
-            >
-              <img
-                src="/images/SpaAndWellness.jpg"
-                alt="Illustration of a relaxing spa treatment"
-                loading="lazy"
-                className="aspect-[16/7] w-full object-cover"
-              />
-              <div className="p-5">
-                <h3 id="spa-title" className="text-xl font-bold">
-                  Spa and Wellness
-                </h3>
-                <p className="mt-1 text-sm text-ink-soft">
-                  Massage therapy, facials, body treatments, waxing and hand and
-                  foot spa.
-                </p>
-                <ul className="mt-4 grid grid-cols-2 gap-3">
-                  {categories
-                    .filter((c) => c.group === "spa")
-                    .map((c) => (
-                      <li key={c.id}>
-                        <Link
-                          to={`/services?category=${c.id}`}
-                          className="flex items-center gap-3 rounded-xl bg-brand-50 p-2 text-sm font-medium hover:bg-brand-100"
-                        >
-                          <img
-                            src={c.image}
-                            alt=""
-                            loading="lazy"
-                            className="h-10 w-10 rounded-lg object-cover"
-                          />
-                          {c.label}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <Link
-                    to="/services?category=massage"
-                    className="btn btn-primary"
-                  >
-                    Explore Spa Services
-                  </Link>
-                  <Link to="/booking" className="btn btn-outline">
-                    Book an Appointment
-                  </Link>
-                </div>
-              </div>
-            </article>
-          </div>
+              {n.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+
+      <div className="mt-auto flex flex-wrap gap-3 pt-5">
+        <Link
+          to="/services?category=nail-services"
+          className="btn btn-primary"
+        >
+          Explore Nail Services
+        </Link>
+
+        <Link to="/booking" className="btn btn-outline">
+          Book an Appointment
+        </Link>
+      </div>
+    </div>
+  </article>
+
+  {/* Spa and Wellness */}
+  <article
+    className="card flex h-full flex-col overflow-hidden"
+    aria-labelledby="spa-title"
+  >
+    <img
+      src="/images/SpaAndWellness.jpg"
+      alt="Illustration of a relaxing spa treatment"
+      loading="lazy"
+      className="aspect-[16/7] w-full object-cover"
+    />
+
+    <div className="flex flex-1 flex-col p-5">
+      <h3 id="spa-title" className="text-xl font-bold">
+        Spa and Wellness
+      </h3>
+
+      <p className="mt-1 text-sm text-ink-soft">
+        Massage therapy, facials, body treatments, waxing and hand and
+        foot spa.
+      </p>
+
+      <ul className="mt-4 grid grid-cols-2 gap-3">
+        {categories
+          .filter((c) => c.group === "spa")
+          .map((c) => (
+            <li key={c.id}>
+              <Link
+                to={`/services?category=${c.id}`}
+                className="block rounded-xl border border-brand-100 bg-brand-50 p-3 text-sm font-medium transition hover:bg-brand-100"
+              >
+                {c.label}
+              </Link>
+            </li>
+          ))}
+      </ul>
+
+      <div className="mt-auto flex flex-wrap gap-3 pt-5">
+        <Link
+          to="/services?category=massage"
+          className="btn btn-primary"
+        >
+          Explore Spa Services
+        </Link>
+
+        <Link to="/booking" className="btn btn-outline">
+          Book an Appointment
+        </Link>
+      </div>
+    </div>
+  </article>
+</div>
+
           <div className="mt-8 text-center">
             <Link to="/services" className="btn btn-outline">
               View All Services
