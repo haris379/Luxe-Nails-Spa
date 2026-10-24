@@ -492,257 +492,275 @@ function Services({ canManage }) {
         </p>
       )}
       {canManage && editing && (
-        <form
-          onSubmit={save}
-          className="mb-6 grid gap-3 rounded-xl bg-brand-50 p-4 sm:grid-cols-2"
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-3 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-label={editing._id ? "Edit service" : "Add service"}
+          onMouseDown={(e) => {
+            if (e.target === e.currentTarget) closeForm();
+          }}
         >
-          {msg && (
-            <p
-              role="alert"
-              className="rounded-lg bg-red-50 p-2 text-sm text-red-700 sm:col-span-2"
-            >
-              {msg}
-            </p>
-          )}
-          <div>
-            <label className="label" htmlFor="s-name">
-              Name
-            </label>
-            <input
-              id="s-name"
-              required
-              className="input"
-              value={editing.name}
-              onChange={(e) => setEditing({ ...editing, name: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="label" htmlFor="s-cat">
-              Category
-            </label>
-            <select
-              id="s-cat"
-              className="input"
-              value={editing.category}
-              onChange={(e) =>
-                setEditing({ ...editing, category: e.target.value })
-              }
-            >
-              {categories.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="sm:col-span-2 rounded-xl border border-brand-100 bg-white p-3">
-            <p className="label !mb-2">Service image</p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <div className="flex h-28 w-full shrink-0 items-center justify-center overflow-hidden rounded-lg bg-brand-50 sm:w-44">
-                {preview || editing.image ? (
-                  <img
-                    src={preview || resolveImageUrl(editing.image)}
-                    alt={
-                      preview
-                        ? "Preview of the new image"
-                        : "Current service image"
-                    }
-                    className="h-full w-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.visibility = "hidden";
-                    }}
-                  />
-                ) : (
-                  <span className="px-2 text-center text-xs text-ink-mute">
-                    No image selected
-                  </span>
-                )}
-              </div>
-              <div className="flex-1 space-y-2 text-sm">
-                {preview && (
-                  <p className="text-xs font-medium text-brand-600">
-                    New image selected. It is saved when you press Save service.
-                  </p>
-                )}
-                {!preview && editing.image && (
-                  <p className="text-xs text-ink-soft">
-                    Current image. Choose a file below to replace it.
-                  </p>
-                )}
-                <div>
-                  <label className="label" htmlFor="s-file">
-                    Upload from this device
-                  </label>
-                  <input
-                    key={fileKey}
-                    id="s-file"
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    disabled={busy}
-                    onChange={pickFile}
-                    aria-describedby="s-file-hint"
-                    className="block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-brand-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-700"
-                  />
-                  <p id="s-file-hint" className="mt-1 text-xs text-ink-mute">
-                    JPG, PNG or WebP, up to 5 MB. On a phone you can pick a
-                    photo or take one.
-                  </p>
-                  {imageFile && !busy && (
-                    <button
-                      type="button"
-                      className="mt-1 text-xs text-brand-600 underline"
-                      onClick={clearFile}
-                    >
-                      Remove selected image
-                    </button>
-                  )}
-                  {imgError && (
-                    <p role="alert" className="mt-1 text-xs text-red-600">
-                      {imgError}
-                    </p>
+          <form
+            onSubmit={save}
+            onMouseDown={(e) => e.stopPropagation()}
+            className="grid max-h-[90vh] w-full max-w-3xl gap-3 overflow-y-auto rounded-xl bg-brand-50 p-4 shadow-2xl sm:grid-cols-2 sm:p-6"
+          >
+            {msg && (
+              <p
+                role="alert"
+                className="rounded-lg bg-red-50 p-2 text-sm text-red-700 sm:col-span-2"
+              >
+                {msg}
+              </p>
+            )}
+            <div>
+              <label className="label" htmlFor="s-name">
+                Name
+              </label>
+              <input
+                id="s-name"
+                required
+                className="input"
+                value={editing.name}
+                onChange={(e) =>
+                  setEditing({ ...editing, name: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="label" htmlFor="s-cat">
+                Category
+              </label>
+              <select
+                id="s-cat"
+                className="input"
+                value={editing.category}
+                onChange={(e) =>
+                  setEditing({ ...editing, category: e.target.value })
+                }
+              >
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="sm:col-span-2 rounded-xl border border-brand-100 bg-white p-3">
+              <p className="label !mb-2">Service image</p>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="flex h-28 w-full shrink-0 items-center justify-center overflow-hidden rounded-lg bg-brand-50 sm:w-44">
+                  {preview || editing.image ? (
+                    <img
+                      src={preview || resolveImageUrl(editing.image)}
+                      alt={
+                        preview
+                          ? "Preview of the new image"
+                          : "Current service image"
+                      }
+                      className="h-full w-full object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.visibility = "hidden";
+                      }}
+                    />
+                  ) : (
+                    <span className="px-2 text-center text-xs text-ink-mute">
+                      No image selected
+                    </span>
                   )}
                 </div>
-                {progress !== null && (
-                  <div>
-                    <div className="h-2 overflow-hidden rounded-full bg-brand-100">
-                      <div
-                        role="progressbar"
-                        aria-label="Upload progress"
-                        aria-valuemin={0}
-                        aria-valuemax={100}
-                        aria-valuenow={progress}
-                        className="h-full bg-brand-gradient transition-all"
-                        style={{ width: `${progress}%` }}
-                      />
-                    </div>
-                    <p className="mt-1 text-xs text-ink-soft">
-                      {progress < 100 ? `Uploading… ${progress}%` : "Saving…"}
-                    </p>
-                  </div>
-                )}
-                <div>
-                  <label className="label" htmlFor="s-img">
-                    Or image path / URL
-                  </label>
-                  <input
-                    id="s-img"
-                    className="input"
-                    placeholder="/images/service-gel.svg"
-                    disabled={!!imageFile || busy}
-                    value={editing.image}
-                    onChange={(e) =>
-                      setEditing({ ...editing, image: e.target.value })
-                    }
-                  />
-                  {imageFile && (
-                    <p className="mt-1 text-xs text-ink-mute">
-                      The uploaded file will be used instead of this path.
+                <div className="flex-1 space-y-2 text-sm">
+                  {preview && (
+                    <p className="text-xs font-medium text-brand-600">
+                      New image selected. It is saved when you press Save
+                      service.
                     </p>
                   )}
+                  {!preview && editing.image && (
+                    <p className="text-xs text-ink-soft">
+                      Current image. Choose a file below to replace it.
+                    </p>
+                  )}
+                  <div>
+                    <label className="label" htmlFor="s-file">
+                      Upload from this device
+                    </label>
+                    <input
+                      key={fileKey}
+                      id="s-file"
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      disabled={busy}
+                      onChange={pickFile}
+                      aria-describedby="s-file-hint"
+                      className="block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-brand-100 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-brand-700"
+                    />
+                    <p id="s-file-hint" className="mt-1 text-xs text-ink-mute">
+                      JPG, PNG or WebP, up to 5 MB. On a phone you can pick a
+                      photo or take one.
+                    </p>
+                    {imageFile && !busy && (
+                      <button
+                        type="button"
+                        className="mt-1 text-xs text-brand-600 underline"
+                        onClick={clearFile}
+                      >
+                        Remove selected image
+                      </button>
+                    )}
+                    {imgError && (
+                      <p role="alert" className="mt-1 text-xs text-red-600">
+                        {imgError}
+                      </p>
+                    )}
+                  </div>
+                  {progress !== null && (
+                    <div>
+                      <div className="h-2 overflow-hidden rounded-full bg-brand-100">
+                        <div
+                          role="progressbar"
+                          aria-label="Upload progress"
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-valuenow={progress}
+                          className="h-full bg-brand-gradient transition-all"
+                          style={{ width: `${progress}%` }}
+                        />
+                      </div>
+                      <p className="mt-1 text-xs text-ink-soft">
+                        {progress < 100 ? `Uploading… ${progress}%` : "Saving…"}
+                      </p>
+                    </div>
+                  )}
+                  <div>
+                    <label className="label" htmlFor="s-img">
+                      Or image path / URL
+                    </label>
+                    <input
+                      id="s-img"
+                      className="input"
+                      placeholder="/images/service-gel.svg"
+                      disabled={!!imageFile || busy}
+                      value={editing.image}
+                      onChange={(e) =>
+                        setEditing({ ...editing, image: e.target.value })
+                      }
+                    />
+                    {imageFile && (
+                      <p className="mt-1 text-xs text-ink-mute">
+                        The uploaded file will be used instead of this path.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="sm:col-span-2">
-            <label className="label" htmlFor="s-desc">
-              Description
-            </label>
-            <textarea
-              id="s-desc"
-              required
-              rows={2}
-              className="input"
-              value={editing.description}
-              onChange={(e) =>
-                setEditing({ ...editing, description: e.target.value })
-              }
-            />
-          </div>
-          <div>
-            <label className="label" htmlFor="s-price">
-              Price (₱)
-            </label>
-            <input
-              id="s-price"
-              required
-              type="number"
-              min="0"
-              className="input"
-              value={editing.price}
-              onChange={(e) =>
-                setEditing({ ...editing, price: e.target.value })
-              }
-            />
-          </div>
-          <div>
-            <label className="label" htmlFor="s-dur">
-              Duration (minutes)
-            </label>
-            <input
-              id="s-dur"
-              required
-              type="number"
-              min="15"
-              max="480"
-              step="5"
-              className="input"
-              value={editing.durationMinutes}
-              onChange={(e) =>
-                setEditing({ ...editing, durationMinutes: e.target.value })
-              }
-            />
-          </div>
-          <div>
-            <label className="label" htmlFor="s-order">
-              Sort order
-            </label>
-            <input
-              id="s-order"
-              type="number"
-              className="input"
-              value={editing.sortOrder}
-              onChange={(e) =>
-                setEditing({ ...editing, sortOrder: e.target.value })
-              }
-            />
-          </div>
-          <div className="flex items-center gap-5 pt-6 text-sm">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={editing.isStartingPrice}
+            <div className="sm:col-span-2">
+              <label className="label" htmlFor="s-desc">
+                Description
+              </label>
+              <textarea
+                id="s-desc"
+                required
+                rows={2}
+                className="input"
+                value={editing.description}
                 onChange={(e) =>
-                  setEditing({ ...editing, isStartingPrice: e.target.checked })
+                  setEditing({ ...editing, description: e.target.value })
                 }
-              />{" "}
-              “From” price
-            </label>
-            <label className="flex items-center gap-2">
+              />
+            </div>
+            <div>
+              <label className="label" htmlFor="s-price">
+                Price (₱)
+              </label>
               <input
-                type="checkbox"
-                checked={editing.active}
+                id="s-price"
+                required
+                type="number"
+                min="0"
+                className="input"
+                value={editing.price}
                 onChange={(e) =>
-                  setEditing({ ...editing, active: e.target.checked })
+                  setEditing({ ...editing, price: e.target.value })
                 }
-              />{" "}
-              Active
-            </label>
-          </div>
-          <div className="flex gap-2 sm:col-span-2">
-            <button className="btn btn-primary" disabled={busy}>
-              {busy ? "Saving…" : "Save service"}
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline"
-              disabled={busy}
-              onClick={closeForm}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
+              />
+            </div>
+            <div>
+              <label className="label" htmlFor="s-dur">
+                Duration (minutes)
+              </label>
+              <input
+                id="s-dur"
+                required
+                type="number"
+                min="15"
+                max="480"
+                step="5"
+                className="input"
+                value={editing.durationMinutes}
+                onChange={(e) =>
+                  setEditing({ ...editing, durationMinutes: e.target.value })
+                }
+              />
+            </div>
+            <div>
+              <label className="label" htmlFor="s-order">
+                Sort order
+              </label>
+              <input
+                id="s-order"
+                type="number"
+                className="input"
+                value={editing.sortOrder}
+                onChange={(e) =>
+                  setEditing({ ...editing, sortOrder: e.target.value })
+                }
+              />
+            </div>
+            <div className="flex items-center gap-5 pt-6 text-sm">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={editing.isStartingPrice}
+                  onChange={(e) =>
+                    setEditing({
+                      ...editing,
+                      isStartingPrice: e.target.checked,
+                    })
+                  }
+                />{" "}
+                “From” price
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={editing.active}
+                  onChange={(e) =>
+                    setEditing({ ...editing, active: e.target.checked })
+                  }
+                />{" "}
+                Active
+              </label>
+            </div>
+            <div className="flex gap-2 sm:col-span-2">
+              <button className="btn btn-primary" disabled={busy}>
+                {busy ? "Saving…" : "Save service"}
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline"
+                disabled={busy}
+                onClick={closeForm}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
       )}
+
       <div className="mb-4 max-w-xs">
         <label className="label" htmlFor="s-filter">
           Show category
