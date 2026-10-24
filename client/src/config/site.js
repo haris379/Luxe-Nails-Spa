@@ -7,7 +7,7 @@ export const site = {
   addressLines: ["Rosario, Cavite", "Philippines"],
   phone: "(046) 123-4567",
   phoneHref: "tel:+63461234567",
-  email: "info@luxenails.com",
+  email: "info.luxenails.booking@gmail.com",
   whatsappNumber: env.VITE_WHATSAPP_NUMBER || "639170000000",
   mapsUrl:
     env.VITE_MAPS_URL ||
