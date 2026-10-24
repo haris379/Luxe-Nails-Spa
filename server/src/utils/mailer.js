@@ -172,4 +172,3 @@ export function sendContactEmail(msg) {
     ].join('\n'),
   });
 }
-F
